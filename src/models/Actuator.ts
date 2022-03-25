@@ -8,4 +8,4 @@ const actuatorSchema = new Schema({
     state: Boolean
 });
 
-module.exports = mongoose.model("Sensor", actuatorSchema)
+module.exports = mongoose.model("Actuator", actuatorSchema)

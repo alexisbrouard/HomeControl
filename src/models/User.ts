@@ -1,11 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    email: String,
-    password: String,
-    username: Boolean
+  email: String,
+  password: String,
+  username: Boolean,
 });
 
-module.exports = mongoose.model("Sensor", userSchema)
+const user = mongoose.model("User", userSchema);
+
+export default user;
