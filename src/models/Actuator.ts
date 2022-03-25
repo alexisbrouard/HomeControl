@@ -1,11 +1,17 @@
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
+enum ActuatorType{
+    BLINDS = "BLINDS",
+    LIGHT = "LIGHT"
+}
 
 const actuatorSchema = new Schema({
-    type: String,
+    type: {type: String, enum: ["BLINDS", "LIGHT"]},
     designation: String,
     state: Boolean
 });
 
-module.exports = mongoose.model("Actuator", actuatorSchema)
+const actuator = mongoose.model("Actuator", actuatorSchema);
+
+export default actuator;
