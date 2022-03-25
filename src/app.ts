@@ -9,6 +9,10 @@ import indexRouter from "@/routes/Index";
 import userRouter from "@/routes/User";
 const app = express();
 
+const mongoose = require("mongoose")
+
+mongoose.connect("mongodb://localhost/homeControl");
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.use(logger("dev"));
