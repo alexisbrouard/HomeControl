@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from "express";
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await User.findOne({ email: "zizi@chachatte.com" });
+      const user = await User.find();
       res.json({ message: user });
       return;
     } catch (error) {
@@ -14,7 +14,8 @@ export default {
 
   getWithId: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      res.json({ message: "Id user route" });
+      const user = await User.findOne({ _id: req.params.id });
+      res.json({ message: user });
       return;
     } catch (error) {
       next(error);
@@ -23,6 +24,7 @@ export default {
 
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      await User.deleteOne({ _id: req.params.id });
       res.json({ message: "Delete user" });
       return;
     } catch (error) {
@@ -37,7 +39,7 @@ export default {
         password: req.body.password,
         username: req.body.username,
       });
-      user.save(function (err: any) {});
+      user.save().then(() => console.log("User Saved"));
       res.json({ message: "POST" });
       return;
     } catch (error) {
@@ -47,6 +49,14 @@ export default {
 
   patch: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const user = await User.updateOne(
+        { _id: req.params.id },
+        {
+          email: req.body.email,
+          password: req.body.password,
+          username: req.body.username,
+        }
+      );
       res.json({ message: "Patch user" });
       return;
     } catch (error) {
