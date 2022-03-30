@@ -8,4 +8,6 @@ const sensorSchema = new Schema({
     rawValue: Number
 });
 
-module.exports = mongoose.model("Sensor", sensorSchema)
+const sensor = mongoose.model("User", sensorSchema);
+
+export default sensor;
