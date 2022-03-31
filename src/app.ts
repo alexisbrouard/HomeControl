@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import indexRouter from "@/routes/Index";
 import userRouter from "@/routes/User";
 import actuatorRouter from "@/routes/Actuator";
+import sensorRouter from "@/routes/Sensor";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/actuator", actuatorRouter);
+app.use("/sensor", sensorRouter);
 
 // catch 404
 app.use(function (req: Request, res: Response, next: NextFunction) {
