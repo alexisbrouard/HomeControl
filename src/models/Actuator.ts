@@ -12,6 +12,7 @@ const actuatorSchema = new Schema({
     state: Boolean
 });
 
+actuatorSchema.set('toJSON', { virtuals: true });
 const actuator = mongoose.model("Actuator", actuatorSchema);
 
 export default actuator;

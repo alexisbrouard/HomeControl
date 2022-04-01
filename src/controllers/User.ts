@@ -1,17 +1,15 @@
 import User from "@/models/User";
 
-import { NextFunction, Request, Response } from "express";
+import e, { NextFunction, Request, Response } from "express";
 
-let ResponseFormatter = require('@/responseFormatter');
+import { formatter } from "@/responseFormatter";
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await User.find();
-
-      res.json({ 
-        ApiResponse: ResponseFormatter.formatter("GET USER",user),
-       });
+      // throw new Error("toto");
+      res.json(formatter("GET USER", user));
       return;
     } catch (error) {
       next(error);

@@ -8,6 +8,7 @@ const userSchema = new Schema({
   username: String,
 });
 
+userSchema.set('toJSON', { virtuals: true });
 const user = mongoose.model("User", userSchema);
 
 export default user;

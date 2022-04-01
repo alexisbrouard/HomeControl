@@ -10,9 +10,11 @@ import userRouter from "@/routes/User";
 import actuatorRouter from "@/routes/Actuator";
 import sensorRouter from "@/routes/Sensor";
 
+import { formatter } from "@/responseFormatter";
+
 const app = express();
 
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost/homeControl");
 
@@ -39,11 +41,11 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  // res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.json(formatter("ERROR", undefined, err.message));
 });
 
 export default app;
