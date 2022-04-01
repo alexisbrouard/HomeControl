@@ -1,11 +1,12 @@
 import Actuator from "@/models/Actuator";
 import { NextFunction, Request, Response } from "express";
+import { formatter } from "@/responseFormatter";
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const actuator = await Actuator.find();
-      res.json({ message: actuator });
+      res.json(formatter("GET ACTUATOR", actuator));
       return;
     } catch (error) {
       next(error);
@@ -15,7 +16,7 @@ export default {
   getWithId: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const actuator = await Actuator.findOne({ _id: req.params.id });
-      res.json({ message: actuator });
+      res.json(formatter("GET ACTUATOR BY ID", actuator));
       return;
     } catch (error) {
       next(error);
@@ -25,7 +26,7 @@ export default {
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
       await Actuator.deleteOne({ _id: req.params.id });
-      res.json({ message: "Delete actuator" });
+      res.json(formatter("DELETE ACTUATOR"));
       return;
     } catch (error) {
       next(error);
@@ -34,13 +35,12 @@ export default {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const actuator = new Actuator({
+      const actuator = Actuator.create({
         type: req.body.type,
         designation: req.body.designation,
         state: req.body.state,
       });
-      actuator.save().then(() => console.log("Actuator Saved"));
-      res.json({ message: "POST" });
+      res.json(formatter("POST ACTUATOR", actuator));
       return;
     } catch (error) {
       next(error);
@@ -57,7 +57,7 @@ export default {
           state: req.body.state,
         }
       );
-      res.json({ message: "Patch actuator" });
+      res.json(formatter("PATCH ACTUATOR"));
       return;
     } catch (error) {
       next(error);

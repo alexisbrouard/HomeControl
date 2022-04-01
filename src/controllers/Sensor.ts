@@ -1,11 +1,12 @@
 import Sensor from "@/models/Sensor";
 import { NextFunction, Request, Response } from "express";
+import { formatter } from "@/responseFormatter";
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const sensor = await Sensor.find();
-      res.json({ message: sensor });
+      res.json(formatter("GET SENSOR", sensor));
       return;
     } catch (error) {
       next(error);
@@ -15,7 +16,7 @@ export default {
   getWithId: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const sensor = await Sensor.findOne({ _id: req.params.id });
-      res.json({ message: sensor });
+      res.json(formatter("GET SENSOR BY ID", sensor));
       return;
     } catch (error) {
       next(error);
@@ -25,7 +26,7 @@ export default {
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
       await Sensor.deleteOne({ _id: req.params.id });
-      res.json({ message: "Delete sensor" });
+      res.json(formatter("DELETE SENSOR"));
       return;
     } catch (error) {
       next(error);
@@ -34,13 +35,12 @@ export default {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const sensor = new Sensor({
+      const sensor = Sensor.create({
         type: req.body.type,
         designation: req.body.designation,
         rawValue: req.body.rawValue,
       });
-      sensor.save().then(() => console.log("Sensor Saved"));
-      res.json({ message: "POST" });
+      res.json(formatter("POST SENSOR"));
       return;
     } catch (error) {
       next(error);
@@ -57,7 +57,7 @@ export default {
           rawValue: req.body.rawValue,
         }
       );
-      res.json({ message: "Patch user" });
+      res.json(formatter("PATCH SENSOR"));
       return;
     } catch (error) {
       next(error);
