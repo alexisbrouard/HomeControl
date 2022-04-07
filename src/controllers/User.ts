@@ -20,8 +20,10 @@ export default {
   getWithId: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await User.findOne({ _id: req.params.id });
-      res.json(formatter("GET USER BY ID", user));
-      return;
+      user.get('/books', authenticateJWT, (user, res) => {
+        res.json(formatter("GET USER BY ID", user));
+        return;
+      });
     } catch (error) {
       next(error);
     }
@@ -87,3 +89,4 @@ export default {
     }
   },
 };
+
