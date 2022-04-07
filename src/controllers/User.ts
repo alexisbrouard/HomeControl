@@ -1,6 +1,7 @@
 import User from "@/models/User";
 import e, { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
+import argon2 from "argon2";
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
@@ -37,7 +38,7 @@ export default {
     try {
       const user = User.create({
         email: req.body.email,
-        password: req.body.password,
+        password: await argon2.hash(req.body.password),
         username: req.body.username,
       });
       res.json(formatter("POST USER"));

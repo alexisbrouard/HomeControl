@@ -6,6 +6,7 @@
     "start": "nodemon ./src/index.ts"
   },
   "dependencies": {
+    "argon2": "^0.28.5",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
