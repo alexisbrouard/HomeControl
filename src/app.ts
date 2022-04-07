@@ -16,7 +16,7 @@ const app = express();
 
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/homeControl");
+mongoose.connect("mongodb://127.0.0.1/homeControl");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
