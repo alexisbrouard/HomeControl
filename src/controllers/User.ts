@@ -2,6 +2,9 @@ import User from "@/models/User";
 import e, { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
 import argon2 from "argon2";
+import "dotenv/config"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import express from "express";
+import jwt from "jsonwebtoken";
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
@@ -17,6 +20,25 @@ export default {
   getWithId: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await User.findOne({ _id: req.params.id });
+      res.json(formatter("GET USER BY ID", user));
+      return;
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  login: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await User.findOne({ email: req.params.email });
+      if (await argon2.verify(user.password, req.params.password)) {
+        const signature = process.env.SECRET_KEY;
+        const token = {
+          token: jwt.sign(
+            { email: user.email, username: user.username, id: user._id },
+            signature!
+          ),
+        };
+      }
       res.json(formatter("GET USER BY ID", user));
       return;
     } catch (error) {
