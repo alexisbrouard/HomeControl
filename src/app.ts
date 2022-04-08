@@ -3,6 +3,7 @@ import express from "express";
 import path from "path";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 // Routers
 import indexRouter from "@/routes/Index";
@@ -12,7 +13,10 @@ import sensorRouter from "@/routes/Sensor";
 
 import { formatter } from "@/responseFormatter";
 
+import "dotenv/config";
+
 const app = express();
+app.use(cors());
 
 const mongoose = require("mongoose");
 

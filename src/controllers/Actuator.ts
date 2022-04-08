@@ -35,7 +35,7 @@ export default {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const actuator = Actuator.create({
+      const actuator = await Actuator.create({
         type: req.body.type,
         designation: req.body.designation,
         state: req.body.state,

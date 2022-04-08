@@ -35,7 +35,7 @@ export default {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const sensor = Sensor.create({
+      const sensor = await Sensor.create({
         type: req.body.type,
         designation: req.body.designation,
         rawValue: req.body.rawValue,
