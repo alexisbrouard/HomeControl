@@ -40,7 +40,7 @@ export default {
         designation: req.body.designation,
         rawValue: req.body.rawValue,
       });
-      res.json(formatter("POST SENSOR"));
+      res.json(formatter("POST SENSOR", sensor));
       return;
     } catch (error) {
       next(error);
