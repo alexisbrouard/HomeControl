@@ -15,7 +15,7 @@ const sensorSchema = new Schema({
     enum: ["TEMPERATURE", "HUMIDITY", "BARO", "PROXIMITY"],
   },
   designation: String,
-  rawValue: Number, Boolean,
+  rawValue: Number,
 });
 
 sensorSchema.set("toJSON", { virtuals: true });

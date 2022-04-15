@@ -1,12 +1,22 @@
 import Sensor from "@/models/Sensor";
 import { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
+import { convert } from "@/sensorConvertion";
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const sensor = await Sensor.find();
-      res.json(formatter("GET SENSOR", sensor));
+      const map = sensor.map((sensorTemp) => {
+        return {
+          id: sensorTemp._id,
+          type: sensorTemp.type,
+          designation: sensorTemp.designation,
+          rawValue: sensorTemp.rawValue,
+          value: convert(sensorTemp.type, sensorTemp.rawValue),
+        };
+      });
+      res.json(formatter("GET SENSOR", map));
       return;
     } catch (error) {
       next(error);
