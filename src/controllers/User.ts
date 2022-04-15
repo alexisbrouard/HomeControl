@@ -1,4 +1,4 @@
-import User from "@/models/User";
+import User, { userUpdate } from "@/models/User";
 import e, { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
 import argon2 from "argon2";
@@ -59,11 +59,11 @@ export default {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await User.create({
-        email: req.body.email,
-        password: await argon2.hash(req.body.password),
+      const user = await User.create(userUpdate.parse({
         username: req.body.username,
-      })
+        password: await argon2.hash(req.body.password),
+        email: req.body.email,
+      }));
       res.json(formatter("POST USER"));
       return;
     } catch (error) {
@@ -75,12 +75,11 @@ export default {
     try {
       const user = await User.updateOne(
         { _id: req.params.id },
-        {
-          email: req.body.email,
-          password: await argon2.hash(req.body.password),
+        userUpdate.parse({
           username: req.body.username,
-        }
-      );
+          password: await argon2.hash(req.body.password),
+          email: req.body.email,
+        }));
       res.json(formatter("PATCH USER"));
       return;
     } catch (error) {

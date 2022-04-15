@@ -18,10 +18,11 @@ export default {
       const actuator = await Actuator.findOne({ _id: req.params.id });
       res.json(formatter("GET ACTUATOR BY ID", actuator));
       return;
-    } catch (error) {
+    } catch (error) { 
       next(error);
     }
   },
+
 
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
