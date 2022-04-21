@@ -132,9 +132,9 @@ enum ActuatorType{
 }
 
 const actuatorSchema = new Schema({
-  name: String,
-  type: String,
-  value: String,
+    type: {type: String, enum: ["BLINDS", "LIGHT"]},
+    designation: String,
+    state: Boolean
 });
 ```
 
@@ -149,8 +149,11 @@ enum SensorType {
 }
 
 const sensorSchema = new Schema({
-  name: String,
-  type: String,
-  value: String,
+  type: {
+    type: String,
+    enum: ["TEMPERATURE", "HUMIDITY", "BARO", "PROXIMITY"],
+  },
+  designation: String,
+  rawValue: Number,
 });
 ```
