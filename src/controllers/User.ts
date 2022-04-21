@@ -3,6 +3,7 @@ import e, { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
+import xssVerify from "@/middlewares/xss"
   
 import authenticateJWT from "@/middlewares/Token";
 
@@ -60,7 +61,7 @@ export default {
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await User.create(userUpdate.parse({
-        username: req.body.username,
+        username: xssVerify(req.body.username),
         password: await argon2.hash(req.body.password),
         email: req.body.email,
       }));
@@ -76,7 +77,7 @@ export default {
       const user = await User.updateOne(
         { _id: req.params.id },
         userUpdate.parse({
-          username: req.body.username,
+          username: xssVerify(req.body.username),
           password: await argon2.hash(req.body.password),
           email: req.body.email,
         }));

@@ -8,7 +8,7 @@ const authenticateJWT = (req:Request, res:Response, next:NextFunction) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
-        jwt.verify(token, process.env.SECRET_KEY!, (err, user) => { // TODO SECRET_KEY
+        jwt.verify(token, process.env.SECRET_KEY!, (err, user) => {
             if (err) {
                 return res.sendStatus(403);
             }

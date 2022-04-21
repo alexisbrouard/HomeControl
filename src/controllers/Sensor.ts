@@ -2,6 +2,7 @@ import Sensor from "@/models/Sensor";
 import { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
 import { convert } from "@/sensorConvertion";
+import xssVerify from "@/middlewares/xss"
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
@@ -46,8 +47,8 @@ export default {
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const sensor = await Sensor.create({
-        type: req.body.type,
-        designation: req.body.designation,
+        type: xssVerify(req.body.type),
+        designation: xssVerify(req.body.designation),
         rawValue: req.body.rawValue,
       });
       res.json(formatter("POST SENSOR", sensor));
@@ -62,8 +63,8 @@ export default {
       const sensor = await Sensor.updateOne(
         { _id: req.params.id },
         {
-          type: req.body.type,
-          designation: req.body.designation,
+          type: xssVerify(req.body.type),
+          designation: xssVerify(req.body.designation),
           rawValue: req.body.rawValue,
         }
       );
