@@ -1,6 +1,7 @@
 import Actuator from "@/models/Actuator";
 import { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
+import xssVerify from "@/middlewares/xss";
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
@@ -18,11 +19,10 @@ export default {
       const actuator = await Actuator.findOne({ _id: req.params.id });
       res.json(formatter("GET ACTUATOR BY ID", actuator));
       return;
-    } catch (error) { 
+    } catch (error) {
       next(error);
     }
   },
-
 
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -37,8 +37,8 @@ export default {
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const actuator = await Actuator.create({
-        type: req.body.type,
-        designation: req.body.designation,
+        type: xssVerify(req.body.type),
+        designation: xssVerify(req.body.designation),
         state: req.body.state,
       });
       res.json(formatter("POST ACTUATOR", actuator));
@@ -53,8 +53,8 @@ export default {
       const actuator = await Actuator.updateOne(
         { _id: req.params.id },
         {
-          type: req.body.type,
-          designation: req.body.designation,
+          type: xssVerify(req.body.type),
+          designation: xssVerify(req.body.designation),
           state: req.body.state,
         }
       );
