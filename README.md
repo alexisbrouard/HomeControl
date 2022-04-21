@@ -61,7 +61,9 @@ Then, run MongoDB :
 After this, you'll need to run the project :
 
 ```bash
-  npm install
+  npm install express
+  npm install jsonwebtoken
+  npm install argon2
   npm install node
   npm install typescript
   npm install xss
