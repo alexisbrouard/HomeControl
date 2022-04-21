@@ -16,23 +16,31 @@ of its actuators, while respecting certain safety rules.
 
 ## Features
 
-- User
+- **User**
   - Register => hashed password
   - Login    => create a token
   - Patch    => Token required
   - Delete   => Token required
 
-- Actuators
+- **Actuators**
   - Post => Token required
   - Get => Token required
   - Patch => Token required
   - Delete => Token required
 
-- Sensors
+- **Sensors**
   - Post => Token required
   - Get => Token required
   - Patch => Token required
   - Delete => Token required
+
+- **Protections**
+  - Password is hashed with argon2
+  - A token is generated when a user is created
+  - A token is required to access to users, actuators and sensors
+  - TextEdit are verified with a xss filter
+  - Format for email user is verified with zod
+  - Format for password and username is verified with regex
 
 ## Deployment
 
@@ -72,38 +80,37 @@ You can change if you need, the .env file to change the API key called :
 
 `SECRET_KEY`
 
-## API References
-
+## ENDPOINTS
 ### User
 
 | Method | Parameter | Type     | Route |  Description                |
 | :------ | :-------- | :------- | :--------- |  :------------------------- |
 | GET | `NULL`    | `string` | /user |  **Required**. Token |
-| GET | `NULL`    | `string` | /user/:id |  **Required**. Token |
+| GET | `id`    | `string` | /user/:id |  **Required**. Token |
 | POST | `NULL`    | `string` | /user |   |
 | LOGIN | `NULL`    | `string` | /user/login |   |
-| PATCH | `NULL`    | `string` | /user/:id |  **Required**. Token |
-| DELETE | `NULL`    | `string` | /user/:id |  **Required**. Token |
+| PATCH | `id`    | `string` | /user/:id |  **Required**. Token |
+| DELETE | `id`    | `string` | /user/:id |  **Required**. Token |
 
 ### Actuator
 
 | Method | Parameter | Type     | Route |  Description                |
 | :------ | :-------- | :------- | :--------- |  :------------------------- |
 | GET | `NULL`    | `string` | /actuator |  **Required**. Token |
-| GET | `NULL`    | `string` | /actuator/:id |  **Required**. Token |
+| GET | `id`    | `string` | /actuator/:id |  **Required**. Token |
 | POST | `NULL`    | `string` | /actuator | **Required**. Token |
-| PATCH | `NULL`    | `string` | /actuator/:id |  **Required**. Token |
-| DELETE | `NULL`    | `string` | /actuator/:id |  **Required**. Token |
+| PATCH | `id`    | `string` | /actuator/:id |  **Required**. Token |
+| DELETE | `id`    | `string` | /actuator/:id |  **Required**. Token |
 
 ### Sensor
 
 | Method | Parameter | Type     | Route |  Description                |
 | :------ | :-------- | :------- | :--------- |  :------------------------- |
 | GET | `NULL`    | `string` | /sensor |  **Required**. Token |
-| GET | `NULL`    | `string` | /sensor/:id |  **Required**. Token |
+| GET | `id`    | `string` | /sensor/:id |  **Required**. Token |
 | POST | `NULL`    | `string` | /sensor | **Required**. Token  |
-| PATCH | `NULL`    | `string` | /sensor/:id |  **Required**. Token |
-| DELETE | `NULL`    | `string` | /sensor/:id |  **Required**. Token |
+| PATCH | `id`    | `string` | /sensor/:id |  **Required**. Token |
+| DELETE | `id`    | `string` | /sensor/:id |  **Required**. Token |
 
 ## Collections
 
