@@ -76,148 +76,31 @@ You can change if you need, the .env file to change the API key called :
 
 ### User
 
-#### Get all users
-
-```http
-  GET /localhost/user
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `NULL`    | `string` | **Required**. Token |
-
-#### Get the user
-
-```http
-  GET /localhost/user/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token       |
-
-```http
-  POST /localhost/user
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `NULL`      | `string` | NULL   |
-
-```http
-  LOGIN /localhost/user/login
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `NULL`      | `string` | NULL   |
-
-
-```http
-  PATCH /localhost/user/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token     |
-
-```http
-  DELETE /localhost/user/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token    |
+| Method | Parameter | Type     | Route |  Description                |
+| :------ | :-------- | :------- | :--------- |  :------------------------- |
+| GET | `NULL`    | `string` | /user |  **Required**. Token |
+| GET | `NULL`    | `string` | /user/:id |  **Required**. Token |
+| POST | `NULL`    | `string` | /user |   |
+| LOGIN | `NULL`    | `string` | /user/login |   |
+| PATCH | `NULL`    | `string` | /user/:id |  **Required**. Token |
+| DELETE | `NULL`    | `string` | /user/:id |  **Required**. Token |
 
 ### Actuator
 
-#### Get all actuators
-
-```http
-  GET /localhost/actuator
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `NULL`    | `string` | **Required**. Token |
-
-#### Get the actuator
-
-```http
-  GET /localhost/actuator/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token       |
-
-```http
-  POST /localhost/actuator
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `NULL`      | `string` | **Required**. Token       |
-
-```http
-  PATCH /localhost/actuator/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token     |
-
-```http
-  DELETE /localhost/actuator/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token    |
+| Method | Parameter | Type     | Route |  Description                |
+| :------ | :-------- | :------- | :--------- |  :------------------------- |
+| GET | `NULL`    | `string` | /actuator |  **Required**. Token |
+| GET | `NULL`    | `string` | /actuator/:id |  **Required**. Token |
+| POST | `NULL`    | `string` | /actuator | **Required**. Token |
+| PATCH | `NULL`    | `string` | /actuator/:id |  **Required**. Token |
+| DELETE | `NULL`    | `string` | /actuator/:id |  **Required**. Token |
 
 ### Sensor
 
-#### Get all sensors
-
-```http
-  GET /localhost/sensor
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `NULL`    | `string` | **Required**. Token |
-
-#### Get the user
-
-```http
-  GET /localhost/sensor/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token       |
-
-```http
-  POST /localhost/sensor
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `NULL`      | `string` | **Required**. Token      |
-
-```http
-  PATCH /localhost/sensor/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token     |
-
-```http
-  DELETE /localhost/sensor/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token    |
-
+| Method | Parameter | Type     | Route |  Description                |
+| :------ | :-------- | :------- | :--------- |  :------------------------- |
+| GET | `NULL`    | `string` | /sensor |  **Required**. Token |
+| GET | `NULL`    | `string` | /sensor/:id |  **Required**. Token |
+| POST | `NULL`    | `string` | /sensor | **Required**. Token  |
+| PATCH | `NULL`    | `string` | /sensor/:id |  **Required**. Token |
+| DELETE | `NULL`    | `string` | /sensor/:id |  **Required**. Token |
