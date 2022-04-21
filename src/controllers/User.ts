@@ -65,7 +65,7 @@ export default {
         password: await argon2.hash(req.body.password),
         email: req.body.email,
       }));
-      res.json(formatter("POST USER", user));
+      res.json(formatter("POST USER", user.id));
       return;
     } catch (error) {
       next(error);
