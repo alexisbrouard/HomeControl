@@ -72,7 +72,7 @@ You can change if you need, the .env file to change the API key called :
 
 `SECRET_KEY`
 
-## API Reference
+## API References
 
 ### User
 
@@ -104,3 +104,46 @@ You can change if you need, the .env file to change the API key called :
 | POST | `NULL`    | `string` | /sensor | **Required**. Token  |
 | PATCH | `NULL`    | `string` | /sensor/:id |  **Required**. Token |
 | DELETE | `NULL`    | `string` | /sensor/:id |  **Required**. Token |
+
+## Collections
+
+### User
+
+```ts
+const userSchema = new Schema({
+  email: String,
+  password: String,
+  username: String,
+}); 
+```
+### Actuator
+  
+```ts
+enum ActuatorType{
+    BLINDS = "BLINDS",
+    LIGHT = "LIGHT"
+}
+
+const actuatorSchema = new Schema({
+  name: String,
+  type: String,
+  value: String,
+});
+```
+
+### Sensor
+  
+```ts
+enum SensorType {
+  TEMPERATURE = "TEMPERATURE",
+  HUMIDITY = "HUMIDITY",
+  BARO = "BARO",
+  PROXIMITY = "PROXIMITY",
+}
+
+const sensorSchema = new Schema({
+  name: String,
+  type: String,
+  value: String,
+});
+```
