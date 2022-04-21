@@ -40,7 +40,7 @@ of its actuators, while respecting certain safety rules.
   - A token is required to access to users, actuators and sensors
   - TextEdit are verified with a xss filter
   - Format for email user is verified with zod
-  - Format for password and username is verified with regex
+  - Format for password and username is modified with regex
 
 ## Deployment
 
@@ -62,10 +62,10 @@ After this, you'll need to run the project :
 
 ```bash
   npm install
-
-  # or
   npm install node
   npm install typescript
+  npm install xss
+  npm install zod
 ```
 Finally, you can run the project just with this :
 
