@@ -16,23 +16,31 @@ of its actuators, while respecting certain safety rules.
 
 ## Features
 
-- User
+- **User**
   - Register => hashed password
   - Login    => create a token
   - Patch    => Token required
   - Delete   => Token required
 
-- Actuators
+- **Actuators**
   - Post => Token required
   - Get => Token required
   - Patch => Token required
   - Delete => Token required
 
-- Sensors
+- **Sensors**
   - Post => Token required
   - Get => Token required
   - Patch => Token required
   - Delete => Token required
+
+- **Protections**
+  - Password is hashed with argon2
+  - A token is generated when a user is created
+  - A token is required to access to users, actuators and sensors
+  - TextEdit are verified with a xss filter
+  - Format for email user is verified with zod
+  - Format for password and username is modified with regex
 
 ## Deployment
 
@@ -54,10 +62,10 @@ After this, you'll need to run the project :
 
 ```bash
   npm install
-
-  # or
   npm install node
   npm install typescript
+  npm install xss
+  npm install zod
 ```
 Finally, you can run the project just with this :
 
@@ -72,152 +80,77 @@ You can change if you need, the .env file to change the API key called :
 
 `SECRET_KEY`
 
-## API Reference
-
+## ENDPOINTS
 ### User
 
-#### Get all users
-
-```http
-  GET /localhost/user
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `NULL`    | `string` | **Required**. Token |
-
-#### Get the user
-
-```http
-  GET /localhost/user/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token       |
-
-```http
-  POST /localhost/user
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `NULL`      | `string` | NULL   |
-
-```http
-  LOGIN /localhost/user/login
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `NULL`      | `string` | NULL   |
-
-
-```http
-  PATCH /localhost/user/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token     |
-
-```http
-  DELETE /localhost/user/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token    |
+| Method | Parameter | Type     | Route |  Description                |
+| :------ | :-------- | :------- | :--------- |  :------------------------- |
+| GET | `NULL`    | `string` | /user |  **Required**. Token |
+| GET | `id`    | `string` | /user/:id |  **Required**. Token |
+| POST | `NULL`    | `string` | /user |   |
+| LOGIN | `NULL`    | `string` | /user/login |   |
+| PATCH | `id`    | `string` | /user/:id |  **Required**. Token |
+| DELETE | `id`    | `string` | /user/:id |  **Required**. Token |
 
 ### Actuator
 
-#### Get all actuators
-
-```http
-  GET /localhost/actuator
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `NULL`    | `string` | **Required**. Token |
-
-#### Get the actuator
-
-```http
-  GET /localhost/actuator/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token       |
-
-```http
-  POST /localhost/actuator
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `NULL`      | `string` | **Required**. Token       |
-
-```http
-  PATCH /localhost/actuator/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token     |
-
-```http
-  DELETE /localhost/actuator/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token    |
+| Method | Parameter | Type     | Route |  Description                |
+| :------ | :-------- | :------- | :--------- |  :------------------------- |
+| GET | `NULL`    | `string` | /actuator |  **Required**. Token |
+| GET | `id`    | `string` | /actuator/:id |  **Required**. Token |
+| POST | `NULL`    | `string` | /actuator | **Required**. Token |
+| PATCH | `id`    | `string` | /actuator/:id |  **Required**. Token |
+| DELETE | `id`    | `string` | /actuator/:id |  **Required**. Token |
 
 ### Sensor
 
-#### Get all sensors
+| Method | Parameter | Type     | Route |  Description                |
+| :------ | :-------- | :------- | :--------- |  :------------------------- |
+| GET | `NULL`    | `string` | /sensor |  **Required**. Token |
+| GET | `id`    | `string` | /sensor/:id |  **Required**. Token |
+| POST | `NULL`    | `string` | /sensor | **Required**. Token  |
+| PATCH | `id`    | `string` | /sensor/:id |  **Required**. Token |
+| DELETE | `id`    | `string` | /sensor/:id |  **Required**. Token |
 
-```http
-  GET /localhost/sensor
+## Collections
+
+### User
+
+```ts
+const userSchema = new Schema({
+  email: String,
+  password: String,
+  username: String,
+}); 
+```
+### Actuator
+  
+```ts
+enum ActuatorType{
+    BLINDS = "BLINDS",
+    LIGHT = "LIGHT"
+}
+
+const actuatorSchema = new Schema({
+  name: String,
+  type: String,
+  value: String,
+});
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `NULL`    | `string` | **Required**. Token |
+### Sensor
+  
+```ts
+enum SensorType {
+  TEMPERATURE = "TEMPERATURE",
+  HUMIDITY = "HUMIDITY",
+  BARO = "BARO",
+  PROXIMITY = "PROXIMITY",
+}
 
-#### Get the user
-
-```http
-  GET /localhost/sensor/${id}
+const sensorSchema = new Schema({
+  name: String,
+  type: String,
+  value: String,
+});
 ```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token       |
-
-```http
-  POST /localhost/sensor
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `NULL`      | `string` | **Required**. Token      |
-
-```http
-  PATCH /localhost/sensor/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token     |
-
-```http
-  DELETE /localhost/sensor/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Token    |
-
