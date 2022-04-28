@@ -13,7 +13,14 @@ import sensorRouter from "@/routes/Sensor";
 
 import { formatter } from "@/responseFormatter";
 
+import Mailer from "./services/Mail/Mailer";
+
 import "dotenv/config";
+
+// LE MAILER
+let mailer = new Mailer();
+
+mailer.sendMail();
 
 const app = express();
 app.use(cors());
