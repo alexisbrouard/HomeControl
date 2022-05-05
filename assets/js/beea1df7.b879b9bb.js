@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkhome_control=self.webpackChunkhome_control||[]).push([[699],{8284:function(e){e.exports=JSON.parse('{"title":"Models","slug":"/category/models","permalink":"/docs/category/models","navigation":{"previous":{"title":"Getting started","permalink":"/docs/intro"},"next":{"title":"Requirements","permalink":"/docs/Models/requirements"}}}')}}]);
