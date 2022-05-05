@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkhome_control=self.webpackChunkhome_control||[]).push([[5510],{8740:function(o){o.exports=JSON.parse('{"label":"hello","permalink":"/HomeControl/blog/tags/hello","allTagsPath":"/HomeControl/blog/tags","count":2}')}}]);

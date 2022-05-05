@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkhome_control=self.webpackChunkhome_control||[]).push([[4213],{2853:function(o){o.exports=JSON.parse('{"permalink":"/HomeControl/blog/tags/hello","page":1,"postsPerPage":10,"totalPages":1,"totalCount":2,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
