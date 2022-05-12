@@ -4,8 +4,11 @@ import { formatter } from "@/responseFormatter";
 import { convert } from "@/sensorConvertion";
 import xssVerify from "@/middlewares/xss";
 import DB from "@/services/Database/Database";
+import alarm from "@/middlewares/Alarm";
 
 let db = new DB();
+
+let buffer = false;
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
@@ -69,6 +72,17 @@ export default {
         rawValue: req.body.rawValue,
       });
       res.json(formatter("PATCH SENSOR"));
+      if(buffer==false && req.body.type=="PROXIMITY" && req.body.rawValue==1)
+      {
+        console.log("Alarm is active!");
+        buffer = true;
+        alarm();
+      }
+      if(buffer==true && req.body.type=="PROXIMITY" && req.body.rawValue==0)
+      {
+        console.log("Alarm is inactive!");
+        buffer = false;
+      }
       return;
     } catch (error) {
       next(error);

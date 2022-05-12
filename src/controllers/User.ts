@@ -2,11 +2,15 @@ import User, { userUpdate } from "@/models/User";
 import e, { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
 import argon2 from "argon2";
-import xssVerify from "@/middlewares/xss";
+import xssVerify from "@/middlewares/xss"
 import Auth from "@/services/Auth/Auth";
 import DB from "@/services/Database/Database";
 
 let db = new DB();
+
+import Mailer from "@/services/Mail/Mailer";
+
+let mailer = new Mailer();
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
@@ -62,6 +66,7 @@ export default {
         })
       );
       res.json(formatter("POST USER", user.id));
+      mailer.sendMail(req.body.email, "Welcome to Home Control", "Your account has been created!");
       return;
     } catch (error) {
       next(error);

@@ -1,3 +1,3 @@
 export default interface IMailer {
-    sendMail(): Promise<any>;
+    sendMail(to: string, subject: string, text: string): Promise<any>;
 }

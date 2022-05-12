@@ -7,25 +7,20 @@ class Mailer extends EventEmitter implements IDatabase {
     constructor() {
         super();
     }
-    public async sendMail() {
-        let testAccount = await nodemailer.createTestAccount();
-        
+    public async sendMail(to: string, subject: string, text: string): Promise<void> {
         let tranposter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false,
+            service: 'gmail',
             auth: {
-                user: testAccount.user,
-                pass: testAccount.pass
+                user:'noreply.homecontrol@gmail.com',
+                pass: process.env.MAIL_PASSWORD
             }
         });
-
         let info = await tranposter.sendMail({
-            from: '"Fred Foo 👻" <foo@example.com>',
-            to: "alexis.brouard31@outlook.fr",
-            subject: "Hello ✔",
-            text: "Hello world?",
-            html: "<b>Hello world?</b>"
+            from: 'noreply.homecontrol@gmail.com',
+            to: to,
+            subject: subject,
+            text: text,
+            html: "<b>" + text + "</b>"
         });
 
         console.log("Message sent: %s", info.messageId);
