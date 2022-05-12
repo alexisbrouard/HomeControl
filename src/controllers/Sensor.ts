@@ -2,12 +2,15 @@ import Sensor from "@/models/Sensor";
 import { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
 import { convert } from "@/sensorConvertion";
-import xssVerify from "@/middlewares/xss"
+import xssVerify from "@/middlewares/xss";
+import DB from "@/services/Database/Database";
+
+let db = new DB();
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const sensor = await Sensor.find();
+      const sensor = await db.getAll("Sensor");
       const map = sensor.map((sensorTemp) => {
         return {
           id: sensorTemp._id,
@@ -26,7 +29,7 @@ export default {
 
   getWithId: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const sensor = await Sensor.findOne({ _id: req.params.id });
+      const sensor = await db.getById("Sensor", req.params.id);
       res.json(formatter("GET SENSOR BY ID", sensor));
       return;
     } catch (error) {
@@ -36,7 +39,7 @@ export default {
 
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await Sensor.deleteOne({ _id: req.params.id });
+      await db.delete("Sensor", req.params.id);
       res.json(formatter("DELETE SENSOR"));
       return;
     } catch (error) {
@@ -46,7 +49,7 @@ export default {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const sensor = await Sensor.create({
+      const sensor = await db.create("Sensor", {
         type: xssVerify(req.body.type),
         designation: xssVerify(req.body.designation),
         rawValue: req.body.rawValue,
@@ -60,14 +63,11 @@ export default {
 
   patch: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const sensor = await Sensor.updateOne(
-        { _id: req.params.id },
-        {
-          type: xssVerify(req.body.type),
-          designation: xssVerify(req.body.designation),
-          rawValue: req.body.rawValue,
-        }
-      );
+      const sensor = db.update("Sensor", req.params.id, {
+        type: xssVerify(req.body.type),
+        designation: xssVerify(req.body.designation),
+        rawValue: req.body.rawValue,
+      });
       res.json(formatter("PATCH SENSOR"));
       return;
     } catch (error) {

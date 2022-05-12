@@ -2,11 +2,15 @@ import Actuator from "@/models/Actuator";
 import { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
 import xssVerify from "@/middlewares/xss";
+import DB from "@/services/Database/Database";
+import actuator from "@/models/Actuator";
+
+let db = new DB();
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const actuator = await Actuator.find();
+      const actuator = await db.getAll("Actuator");
       res.json(formatter("GET ACTUATOR", actuator));
       return;
     } catch (error) {
@@ -16,7 +20,7 @@ export default {
 
   getWithId: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const actuator = await Actuator.findOne({ _id: req.params.id });
+      const actuator = await db.getById("Actuator", req.params.id);
       res.json(formatter("GET ACTUATOR BY ID", actuator));
       return;
     } catch (error) {
@@ -26,7 +30,7 @@ export default {
 
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await Actuator.deleteOne({ _id: req.params.id });
+      await db.delete("Actuator", req.params.id);
       res.json(formatter("DELETE ACTUATOR"));
       return;
     } catch (error) {
@@ -36,7 +40,7 @@ export default {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const actuator = await Actuator.create({
+      const actuator = await db.create("Actuator", {
         type: xssVerify(req.body.type),
         designation: xssVerify(req.body.designation),
         state: req.body.state,
@@ -50,14 +54,7 @@ export default {
 
   patch: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const actuator = await Actuator.updateOne(
-        { _id: req.params.id },
-        {
-          type: xssVerify(req.body.type),
-          designation: xssVerify(req.body.designation),
-          state: req.body.state,
-        }
-      );
+      await db.update("Actuator", req.params.id, req.body);
       res.json(formatter("PATCH ACTUATOR"));
       return;
     } catch (error) {

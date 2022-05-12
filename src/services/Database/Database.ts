@@ -1,38 +1,63 @@
+import actuator from "@/models/Actuator";
+import sensor from "@/models/Sensor";
+import user from "@/models/User";
 import { EventEmitter } from "stream";
+import { TypeOf } from "zod";
 import IDatabase from "./IDatabase";
 
 class Database extends EventEmitter implements IDatabase {
-	constructor() {
-		super();
-	}
+  constructor() {
+    super();
+  }
 
-	dictionaryViaLiteral = {
-		User: User,
-		Sensor: Sensor,
-		Actuator: Actuator,
-	};
+  dictionaryViaLiteral = {
+    User: user,
+    Sensor: sensor,
+    Actuator: actuator,
+  };
 
-	getAll(model: string): any {
-		this.dictionaryViaLiteral[model].find();
-		return {};
-	}
+  public async getAll(model: keyof typeof this.dictionaryViaLiteral) {
+    return await this.dictionaryViaLiteral[model].find();
+  }
 
-	getById(model: keyof typeof this.dictionaryViaLiteral, id: string): any {
-		this.dictionaryViaLiteral[model].findOne({ _id: id });
-		return {};
-	}
+  public async getById(
+    model: keyof typeof this.dictionaryViaLiteral,
+    id: string
+  ) {
+    return await this.dictionaryViaLiteral[model].findById(id);
+  }
 
-	create(model: string, data: any): boolean {
-		return true;
-	}
+  public async login(
+    model: keyof typeof this.dictionaryViaLiteral,
+    email: string
+  ) {
+    return await this.dictionaryViaLiteral[model].findOne({ email: email });
+  }
 
-	update(model: string, id: string, data: any): boolean {
-		return true;
-	}
+  public async create(
+    model: keyof typeof this.dictionaryViaLiteral,
+    data: any
+  ) {
+    return await this.dictionaryViaLiteral[model].create(data);
+  }
 
-	delete(model: string, id: string): boolean {
-		return true;
-	}
+  public async update(
+    model: keyof typeof this.dictionaryViaLiteral,
+    id: string,
+    data: any
+  ) {
+    console.log(data);
+    await this.dictionaryViaLiteral[model].updateOne({_id: id}, { $set: data })
+
+    // this.dictionaryViaLiteral[model].findByIdAndUpdate(id, { $set: data });
+  }
+
+  public async delete(
+    model: keyof typeof this.dictionaryViaLiteral,
+    id: string
+  ) {
+    await this.dictionaryViaLiteral[model].findByIdAndDelete(id);
+  }
 }
 
 export default Database;
