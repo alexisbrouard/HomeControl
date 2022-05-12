@@ -5,8 +5,6 @@ import { convert } from "@/sensorConvertion";
 import xssVerify from "@/middlewares/xss"
 import alarm from "@/middlewares/Alarm";
 
-let buffer = false;
-
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -63,6 +61,9 @@ export default {
 
   patch: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const sensorVerify = await Sensor.findOne(
+        { _id: req.params.id });
+      const buffer = sensorVerify.rawValue;
       const sensor = await Sensor.updateOne(
         { _id: req.params.id },
         {
@@ -71,19 +72,11 @@ export default {
           rawValue: req.body.rawValue,
         }
       );
+      console.log("Raw Value :", req.body.rawValue);
       res.json(formatter("PATCH SENSOR"));
-      if(buffer==false && req.body.type=="PROXIMITY" && req.body.rawValue==1)
-      {
-        console.log("Alarm is active!");
-        buffer = true;
-        alarm();
+      if (buffer != req.body.rawValue && req.body.type == "PROXIMITY") {
+        alarm(req.body.rawValue);
       }
-      if(buffer==true && req.body.type=="PROXIMITY" && req.body.rawValue==0)
-      {
-        console.log("Alarm is inactive!");
-        buffer = false;
-      }
-      return;
     } catch (error) {
       next(error);
     }

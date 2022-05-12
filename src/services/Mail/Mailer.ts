@@ -1,7 +1,7 @@
 import { EventEmitter } from "stream";
 import IDatabase from "./IMailer";
 
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
 class Mailer extends EventEmitter implements IDatabase {
     constructor() {
