@@ -17,7 +17,7 @@ class Mailer extends EventEmitter implements IDatabase {
         });
 
         let info = await tranposter.sendMail({
-            from: '"noreply.homecontrol@gmail.com',
+            from: 'noreply.homecontrol@gmail.com',
             to: "alexis.brouard31@outlook.fr",
             subject: "Hello ✔",
             text: "Hello world?",
