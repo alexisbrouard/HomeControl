@@ -4,6 +4,9 @@ import { formatter } from "@/responseFormatter";
 import argon2 from "argon2";
 import xssVerify from "@/middlewares/xss"
 import Auth from "@/services/Auth/Auth";
+import DB from "@/services/Database/Database";
+
+let db = new DB();
 
 import Mailer from "@/services/Mail/Mailer";
 
@@ -12,7 +15,7 @@ let mailer = new Mailer();
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await User.find();
+      let user = await db.getAll("User");
       res.json(formatter("GET USER", user));
       return;
     } catch (error) {
@@ -22,7 +25,7 @@ export default {
 
   getWithId: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await User.findOne({ _id: req.params.id });
+      const user = await db.getById("User", req.params.id);
       res.json(formatter("GET USER", user));
       return;
     } catch (error) {
@@ -33,8 +36,8 @@ export default {
   login: async (req: Request, res: Response, next: NextFunction) => {
     try {
       let auth = new Auth();
-      const user = await User.findOne({ email: req.body.email });
-      let token = {token: await auth.login(req.body.password, user)}
+      const user = await db.login("User", req.body.email);
+      let token = { token: await auth.login(req.body.password, user) };
       res.json(formatter("LOGIN USER", token));
       return;
     } catch (error) {
@@ -44,7 +47,7 @@ export default {
 
   delete: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await User.deleteOne({ _id: req.params.id });
+      await db.delete("User", req.params.id);
       res.json(formatter("DELETE USER"));
       return;
     } catch (error) {
@@ -54,7 +57,8 @@ export default {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await User.create(
+      const user = await db.create(
+        "User",
         userUpdate.parse({
           username: xssVerify(req.body.username),
           password: await argon2.hash(req.body.password),
@@ -71,8 +75,9 @@ export default {
 
   patch: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await User.updateOne(
-        { _id: req.params.id },
+      db.update(
+        "User",
+        req.params.id,
         userUpdate.parse({
           username: xssVerify(req.body.username),
           password: await argon2.hash(req.body.password),
