@@ -72,8 +72,6 @@ export default {
         designation: xssVerify(req.body.designation),
         rawValue: req.body.rawValue,
       });
-      console.log("Raw Value :", req.body.rawValue);
-
       res.json(formatter("PATCH SENSOR"));
       if (buffer != req.body.rawValue && req.body.type == "PROXIMITY") {
         alarm(req.body.rawValue);
