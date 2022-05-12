@@ -12,7 +12,7 @@ class Mailer extends EventEmitter implements IDatabase {
             service: 'gmail',
             auth: {
                 user:'noreply.homecontrol@gmail.com',
-                pass: 'HomeControl31!'
+                pass: process.env.MAIL_PASSWORD
             }
         });
         let info = await tranposter.sendMail({
