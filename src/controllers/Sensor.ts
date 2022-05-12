@@ -1,4 +1,3 @@
-import Sensor from "@/models/Sensor";
 import { NextFunction, Request, Response } from "express";
 import { formatter } from "@/responseFormatter";
 import { convert } from "@/sensorConvertion";
@@ -64,10 +63,9 @@ export default {
 
   patch: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const sensorVerify = await Sensor.findOne(
-        { _id: req.params.id });
+      const sensorVerify = await db.getById("Sensor", req.params.id);
       const buffer = sensorVerify.rawValue;
-      const sensor = await db.update("Sensor", req.params.id, {
+      await db.update("Sensor", req.params.id, {
         type: xssVerify(req.body.type),
         designation: xssVerify(req.body.designation),
         rawValue: req.body.rawValue,
