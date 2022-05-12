@@ -64,14 +64,9 @@ export default {
   patch: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const sensorVerify = await db.getById("Sensor", req.params.id);
-      const buffer = sensorVerify.rawValue;
-      await db.update("Sensor", req.params.id, {
-        type: xssVerify(req.body.type),
-        designation: xssVerify(req.body.designation),
-        rawValue: req.body.rawValue,
-      });
+      await db.update("Sensor", req.params.id, req.body);
       res.json(formatter("PATCH SENSOR"));
-      if (buffer != req.body.rawValue && req.body.type == "PROXIMITY") {
+      if (sensorVerify.rawValue != req.body.rawValue && sensorVerify.type == "PROXIMITY") {
         alarm(req.body.rawValue);
       }
     } catch (error) {

@@ -13,10 +13,13 @@ import sensorRouter from "@/routes/Sensor";
 
 import { formatter } from "@/responseFormatter";
 
+import Mailer from "@/services/Mail/Mailer";
+
 import "dotenv/config";
 
 const app = express();
 app.use(cors());
+let mailer = new Mailer();
 
 const mongoose = require("mongoose");
 

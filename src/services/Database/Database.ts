@@ -46,10 +46,7 @@ class Database extends EventEmitter implements IDatabase {
     id: string,
     data: any
   ) {
-    console.log(data);
-    await this.dictionaryViaLiteral[model].updateOne({_id: id}, { $set: data })
-
-    // this.dictionaryViaLiteral[model].findByIdAndUpdate(id, { $set: data });
+    await this.dictionaryViaLiteral[model].findByIdAndUpdate(id, { $set: data });
   }
 
   public async delete(
