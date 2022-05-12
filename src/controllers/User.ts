@@ -5,6 +5,9 @@ import argon2 from "argon2";
 import xssVerify from "@/middlewares/xss"
 import Auth from "@/services/Auth/Auth";
 
+import Mailer from "@/services/Mail/Mailer";
+
+let mailer = new Mailer();
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
@@ -59,6 +62,7 @@ export default {
         })
       );
       res.json(formatter("POST USER", user.id));
+      mailer.sendMail(req.body.email, "Welcome to Home Control", "Your account has been created!");
       return;
     } catch (error) {
       next(error);

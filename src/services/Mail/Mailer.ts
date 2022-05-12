@@ -7,7 +7,7 @@ class Mailer extends EventEmitter implements IDatabase {
     constructor() {
         super();
     }
-    public async sendMail() {
+    public async sendMail(to: string, subject: string, text: string): Promise<void> {
         let tranposter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -15,13 +15,12 @@ class Mailer extends EventEmitter implements IDatabase {
                 pass: 'HomeControl31!'
             }
         });
-
         let info = await tranposter.sendMail({
             from: 'noreply.homecontrol@gmail.com',
-            to: "alexis.brouard31@outlook.fr",
-            subject: "Hello ✔",
-            text: "Hello world?",
-            html: "<b>Hello world?</b>"
+            to: to,
+            subject: subject,
+            text: text,
+            html: "<b>" + text + "</b>"
         });
 
         console.log("Message sent: %s", info.messageId);
