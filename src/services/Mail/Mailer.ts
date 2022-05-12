@@ -8,20 +8,16 @@ class Mailer extends EventEmitter implements IDatabase {
         super();
     }
     public async sendMail() {
-        let testAccount = await nodemailer.createTestAccount();
-        
         let tranposter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false,
+            service: 'gmail',
             auth: {
-                user: testAccount.user,
-                pass: testAccount.pass
+                user:'noreply.homecontrol@gmail.com',
+                pass: 'HomeControl31!'
             }
         });
 
         let info = await tranposter.sendMail({
-            from: '"Fred Foo 👻" <foo@example.com>',
+            from: '"noreply.homecontrol@gmail.com',
             to: "alexis.brouard31@outlook.fr",
             subject: "Hello ✔",
             text: "Hello world?",

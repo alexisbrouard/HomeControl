@@ -4,8 +4,6 @@ import { formatter } from "@/responseFormatter";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import xssVerify from "@/middlewares/xss"
-  
-import authenticateJWT from "@/middlewares/Token";
 
 export default {
   get: async (req: Request, res: Response, next: NextFunction) => {
