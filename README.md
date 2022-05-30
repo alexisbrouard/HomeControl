@@ -7,6 +7,8 @@
 This API allows the management of users of a house, its sensors and
 of its actuators, while respecting certain safety rules.
 
+To find our documentation, you can use this link : [Documentation - Home Control](https://alexisbrouard.github.io/HomeControl/)
+
 
 ## Authors
 
